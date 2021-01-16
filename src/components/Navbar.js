@@ -6,9 +6,9 @@ import {
 } from "react-router-dom";
 
 
-import Home from '../containers/home';
-import About from '../containers/about';
-import UserInfo from '../containers/userInfo'
+import Home from '../containers/Home';
+import About from '../containers/About';
+import UserInfo from '../containers/UserInfo'
 
 
 const Navbar = (props) => {

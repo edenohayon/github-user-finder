@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import Search from '../components/search'
-import UserCard from '../components/userCard';
-import Error from '../components/errorModal';
+import Search from '../components/Search'
+import UserCard from '../components/UserCard';
+import Error from '../components/ErrorModal';
 import { withRouter } from 'react-router';
 
 
