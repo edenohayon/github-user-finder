@@ -2,47 +2,40 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from "react-router-dom";
 import { VscError } from 'react-icons/vsc'
 import { FiLink2 } from 'react-icons/fi'
-
+import useFetch from '../hooks/useFetch'
 const UserInfo = (props) => {
 
     let username = useParams().userName;
 
     let [user, setUser] = useState(null);
     let [displayRepos, setDisplayRepos] = useState(false)
-    let [userRepos, setUserRepos] = useState([])
-    const [isLoading, setIsLoading] = useState(false);
+ 
 
+    const { loading,
+        error,
+        items,
+        getRepos } = useFetch();
 
 
     useEffect(() => {
         //call for data
-        setIsLoading(true)
         fetch(`https://api.github.com/users/` + username).then(response => {
 
             return response.json()
         }).then(data => {
-            setIsLoading(false)
             setUser(data)
         })
     }, [username]);
 
     const displayReposHandler = () => {
         setDisplayRepos(prev => !prev);
-
-        if (!userRepos.length) {
+        if (!items.length) {
             getUserRepos();
         }
     }
 
     const getUserRepos = () => {
-        setIsLoading(true)
-        fetch(`https://api.github.com/users/` + username + '/repos').then(response => {
-
-            return response.json()
-        }).then(data => {
-            setUserRepos(data)
-            setIsLoading(false)
-        })
+        getRepos(user.login)
     }
 
     if (user)
@@ -63,7 +56,7 @@ const UserInfo = (props) => {
                     </div>
 
                 </div>
-                {isLoading
+                {loading
                     ? <div className="spinner h-96"></div>
                     : null
                 }
@@ -71,7 +64,7 @@ const UserInfo = (props) => {
 
                     {displayRepos
                         ?
-                        userRepos.map(repo => {
+                        items.map(repo => {
                             return <span key={repo.id}
                                 className="bg-white m-2 p-4 shadow-lg rounded-lg md:text-xl text-indigo-600 hover:bg-purple-100 transform hover:-translate-y-1 hover:scale-110" >
                                 <a href={repo.html_url} target="_blank" rel="noreferrer">{repo.name}</a>
@@ -80,8 +73,8 @@ const UserInfo = (props) => {
 
                         : null}
 
-                    {!userRepos.length && displayRepos && !isLoading
-                        ? <h1 className="flex items-center text-yellow-800 text-lx font-bold"><VscError /> No Repos Found.</h1>
+                    {error
+                        ? <h1 className="flex items-center text-yellow-800 text-lx font-bold"><VscError /> {error}.</h1>
                         : null}
                 </div>
 

@@ -21,7 +21,7 @@ const About = (props) => {
                     <h2 className="text-xl font-serif md:text-3xl">{months[date.getMonth()]} {date.getDate()}, {date.getFullYear()}</h2>
                 </div>
             </div>
-            <div class="flex items-center justify-center ">
+            <div className="flex items-center justify-center ">
                     <button 
                     className="align-center flex justify-between items-center bg-gray-500 text-gray-200 rounded-lg py-2 px-4 pl-2 "
                     onClick={openNewTab}>
